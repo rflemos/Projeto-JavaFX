@@ -16,6 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import model.services.DepartmentService;
 
 public class MainViewController implements Initializable{
 	
@@ -37,7 +38,7 @@ public class MainViewController implements Initializable{
 	
 	@FXML
 	public void onMenuItemDepartmentAction() {
-		loadView("/gui/DepartmentList.fxml");
+		loadView2("/gui/DepartmentList.fxml");
 		
 	}
 	
@@ -60,12 +61,35 @@ public class MainViewController implements Initializable{
 		VBox newVBox = loader.load();
 		
 		Scene mainScene = Main.getMainScene();
-		VBox mainVBox = (VBox)((ScrollPane) mainScene.getRoot()).getContent(); //pega o primeiro elemento da minha view que no casoé o ScrollPane
+		VBox mainVBox = (VBox)((ScrollPane) mainScene.getRoot()).getContent(); //pega o primeiro elemento da minha view que no caso é o ScrollPane
 		
 		Node mainMenu = mainVBox.getChildren().get(0);
 		mainVBox.getChildren().clear();
 		mainVBox.getChildren().add(mainMenu);
 		mainVBox.getChildren().addAll(newVBox.getChildren());
+		
+		}
+		catch (IOException e) {
+			Alerts.showAlert("IO Excpetion", "Error Load View", e.getMessage(), AlertType.ERROR);
+		}
+	}
+	
+	private synchronized void loadView2(String absoluteName) {
+		try {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+		VBox newVBox = loader.load();
+		
+		Scene mainScene = Main.getMainScene();
+		VBox mainVBox = (VBox)((ScrollPane) mainScene.getRoot()).getContent(); //pega o primeiro elemento da minha view que no caso é o ScrollPane
+		
+		Node mainMenu = mainVBox.getChildren().get(0);
+		mainVBox.getChildren().clear();
+		mainVBox.getChildren().add(mainMenu);
+		mainVBox.getChildren().addAll(newVBox.getChildren());
+		
+		DepartmentListController controller = loader.getController(); //instancia variavel 
+		controller.setDepartmentService(new DepartmentService());
+		controller.updateTableView();
 		
 		}
 		catch (IOException e) {
