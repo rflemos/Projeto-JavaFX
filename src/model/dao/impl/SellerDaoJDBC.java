@@ -169,7 +169,7 @@ public class SellerDaoJDBC implements SellerDao {
 			rs = st.executeQuery();
 			
 			List<Seller> list = new ArrayList<>();
-			Map<Integer, Department> map = new HashMap<>();
+			Map<Integer, Department> map = new HashMap<>();//key que representa um objeto
 			
 			while (rs.next()) {
 				
