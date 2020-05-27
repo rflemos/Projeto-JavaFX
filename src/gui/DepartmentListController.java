@@ -90,8 +90,10 @@ public class DepartmentListController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load(); // carrega a minha view
 			
-			DepartmentFormController controller = loader.getController();
+			//injeção de dependencia
+			DepartmentFormController controller = loader.getController(); 
 			controller.setDepartment(obj);
+			controller.setDepartmentService(new DepartmentService());
 			controller.updateData();
 			
 			

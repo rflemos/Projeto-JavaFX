@@ -17,9 +17,22 @@ public class DepartmentService {
 		list.add(new Department (2,"Computers"));
 		list.add(new Department (3,"Eletronics"));
 		return list;*/ // implementação mockada.
+	}
 		
+		public void saveOrUpdate( Department obj) {
+			
+			if(obj.getId() == null) { 
+				// testo caso seja igual a nulo siguinifica que estamos inserindo o novo departamento
+				dao.insert(obj);
+				
+			}
+			
+			else {
+				dao.update(obj);
+			}
+		}
 		
 		
 	}
 
-}
+
