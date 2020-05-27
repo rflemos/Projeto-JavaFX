@@ -1,9 +1,12 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import db.DbException;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
@@ -22,6 +25,8 @@ public class DepartmentFormController implements Initializable {
 	private Department entity; // dependecia para departamento é a entidade relacionada ao formulario essa
 	
 	private DepartmentService service; // criado uma dependencia com a classe DepartmentService
+	
+	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();//permimete objetos a se inscrever nesta lista e receberem eventos  
 	
 	@FXML
 	private TextField txtId;
@@ -47,6 +52,10 @@ public class DepartmentFormController implements Initializable {
 		this.service = service;
 	}
 	
+	public void SubscribeDataChangeListener(DataChangeListener listener) {//qualquer objeto que implementem a Interface pode ser inscrito nesta lista
+		dataChangeListeners.add(listener);
+	}
+	
 	
 	@FXML
 	public void onBtSaveAction(ActionEvent event) {
@@ -59,12 +68,20 @@ public class DepartmentFormController implements Initializable {
 		try {
 		entity = gerFormData(); // responsavel por pegar dados das caixa de texto txtName e txtId e instanciar o obejeto departamento
 		service.saveOrUpdate(entity);
+		notifyDataChangeListeners();
 		Utils.currentStage(event).close();// fecha a janela atual
 		}
 		catch(DbException e) {
 			Alerts.showAlert("Error saving object", null, e.getMessage(), AlertType.ERROR);
 		}
 	}
+	private void notifyDataChangeListeners() {
+		for(DataChangeListener listener : dataChangeListeners) {
+			listener.onDataChanged();//fim da classe sobject classe que emite o evento
+		}
+		
+	}
+
 	private Department gerFormData() {
 		Department obj = new Department();
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
@@ -81,6 +98,7 @@ public class DepartmentFormController implements Initializable {
 	
 	
 	
+
 	
 
 	@Override
