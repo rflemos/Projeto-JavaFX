@@ -95,7 +95,7 @@ public class DepartmentListController implements Initializable,DataChangeListene
 			DepartmentFormController controller = loader.getController(); 
 			controller.setDepartment(obj);
 			controller.setDepartmentService(new DepartmentService());
-			controller.SubscribeDataChangeListener(this); // se increvendo para receber o evento que ira atualizar a tabela
+			controller.SubscribeDataChangeListener(this); // se increvendo para receber o evento que ira atualizar a tabela esta amarrado na classe derpartmentForm
 			controller.updateData();
 			
 			
