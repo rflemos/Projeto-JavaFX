@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mysql.jdbc.Statement;
+//import com.mysql.jdbc.Statement;
 
 import db.DB;
 import db.DbException;
@@ -164,7 +166,7 @@ public class SellerDaoJDBC implements SellerDao {
 					"SELECT seller.*,department.Name as DepName "
 					+ "FROM seller INNER JOIN department "
 					+ "ON seller.DepartmentId = department.Id "
-					+ "ORDER BY Name");
+					+ "ORDER BY ID");
 			
 			rs = st.executeQuery();
 			
